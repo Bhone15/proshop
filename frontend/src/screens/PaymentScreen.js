@@ -3,7 +3,7 @@ import { Form, Button, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
-import CheckOutStep from "../components/CheckOutStep";
+import CheckOutSteps from "../components/CheckOutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
 
 const PaymentScreen = () => {
@@ -27,7 +27,7 @@ const PaymentScreen = () => {
 
   return (
     <FormContainer>
-      <CheckOutStep step1 step2 step3 />
+      <CheckOutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group>
