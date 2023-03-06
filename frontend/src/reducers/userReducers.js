@@ -97,6 +97,7 @@ export const userUpdateProfileReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+    // eslint-disable-next-line
     case USER_UPDATE_PROFILE_RESET:
       return {};
     default:
