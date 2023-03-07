@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   USER_DETAIL_FAIL,
   USER_DETAIL_REQUEST,
+  USER_DETAIL_RESET,
   USER_DETAIL_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -13,7 +14,8 @@ import {
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
-} from "../constants/userConstant";
+} from '../constants/userConstant';
+import { ORDER_LIST_MY_REST } from '../constants/orderConstant';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -21,12 +23,12 @@ export const login = (email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     const { data } = await axios.post(
-      "/api/users/login",
+      '/api/users/login',
       {
         email,
         password,
@@ -35,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
     );
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
@@ -48,8 +50,10 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem("userInfo");
+  localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAIL_RESET });
+  dispatch({ type: ORDER_LIST_MY_REST });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -58,12 +62,12 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     };
 
     const { data } = await axios.post(
-      "/api/users",
+      '/api/users',
       {
         name,
         email,
@@ -75,7 +79,7 @@ export const register = (name, email, password) => async (dispatch) => {
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
     // login right away
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAIL,
@@ -97,7 +101,7 @@ export const getUserDetail = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -126,7 +130,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -137,7 +141,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
